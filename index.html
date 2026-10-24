@@ -25,7 +25,7 @@
                     <p class="text-xs text-slate-400">Terhubung dengan Google Form</p>
                 </div>
             </div>
-            <button id="toggleAdminBtn" onclick="toggleAdminPanel()" class="text-xs bg-slate-700 hover:bg-slate-600 text-slate-200 px-3 py-2 rounded-lg transition flex items-center gap-2 border border-slate-600">
+            <button id="toggleAdminBtn" type="button" onclick="toggleAdminPanel()" class="text-xs bg-slate-700 hover:bg-slate-600 text-slate-200 px-3 py-2 rounded-lg transition flex items-center gap-2 border border-slate-600 cursor-pointer">
                 <i class="fa-solid fa-gear"></i>
                 <span>Pengaturan Guru</span>
             </button>
@@ -41,7 +41,7 @@
                 <h2 class="text-base font-semibold text-indigo-400 flex items-center gap-2">
                     <i class="fa-solid fa-sliders"></i> Pengaturan Soal & Google Form
                 </h2>
-                <button onclick="toggleAdminPanel()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+                <button type="button" onclick="toggleAdminPanel()" class="text-slate-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             
             <div class="space-y-4">
@@ -49,7 +49,7 @@
                     <label class="block text-xs text-slate-300 font-medium mb-1">Tautan Google Form Utama (Default):</label>
                     <div class="flex gap-2">
                         <input type="text" id="defaultFormUrl" value="https://forms.gle/Fgs7m4mKbgpKaFxk7" class="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-indigo-500" placeholder="https://forms.gle/...">
-                        <button onclick="applyDefaultUrlToAll()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs px-3 py-2 rounded-lg transition font-medium">
+                        <button type="button" onclick="applyDefaultUrlToAll()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs px-3 py-2 rounded-lg transition font-medium cursor-pointer">
                             Terapkan ke Semua Soal
                         </button>
                     </div>
@@ -58,10 +58,10 @@
                 <div class="flex justify-between items-center pt-2">
                     <span class="text-xs text-slate-400">Jumlah Soal Aktif: <strong id="questionCountText" class="text-white">5</strong></span>
                     <div class="flex gap-2">
-                        <button onclick="addQuestion()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs px-3 py-1.5 rounded-lg transition">
+                        <button type="button" onclick="addQuestion()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs px-3 py-1.5 rounded-lg transition cursor-pointer">
                             <i class="fa-solid fa-plus mr-1"></i> Tambah Soal
                         </button>
-                        <button onclick="removeQuestion()" class="bg-rose-600 hover:bg-rose-500 text-white text-xs px-3 py-1.5 rounded-lg transition">
+                        <button type="button" onclick="removeQuestion()" class="bg-rose-600 hover:bg-rose-500 text-white text-xs px-3 py-1.5 rounded-lg transition cursor-pointer">
                             <i class="fa-solid fa-minus mr-1"></i> Hapus Soal
                         </button>
                     </div>
@@ -89,7 +89,7 @@
                 <div class="bg-white p-2 rounded-lg" id="qrcode"></div>
                 <div class="text-center">
                     <p class="text-xs text-slate-400 font-medium mb-1">Scan QR untuk Buka Aplikasi Ini</p>
-                    <button onclick="downloadQR()" class="text-xs bg-slate-700 hover:bg-slate-600 text-slate-200 px-2.5 py-1 rounded transition border border-slate-600">
+                    <button type="button" onclick="downloadQR()" class="text-xs bg-slate-700 hover:bg-slate-600 text-slate-200 px-2.5 py-1 rounded transition border border-slate-600 cursor-pointer">
                         <i class="fa-solid fa-download mr-1"></i> Simpan Gambar QR
                     </button>
                 </div>
@@ -110,7 +110,7 @@
 
             <div class="flex items-center gap-4 text-xs shrink-0 w-full sm:w-auto justify-between sm:justify-end">
                 <span class="text-slate-400"><strong id="answeredCount" class="text-emerald-400">0</strong> dari <span id="totalQuestionsText">0</span> Terjawab</span>
-                <button onclick="resetProgress()" class="text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 px-2.5 py-1 rounded transition border border-rose-500/20">
+                <button type="button" onclick="resetProgress()" class="text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 px-2.5 py-1 rounded transition border border-rose-500/20 cursor-pointer">
                     <i class="fa-solid fa-rotate-right mr-1"></i> Reset Progres
                 </button>
             </div>
@@ -141,10 +141,8 @@
 
     <!-- Application Script -->
     <script>
-        // Default Google Form URL
         const DEFAULT_FORM_URL = "https://forms.gle/Fgs7m4mKbgpKaFxk7";
 
-        // Initial State
         let config = {
             totalQuestions: 5,
             urls: {}
@@ -152,7 +150,6 @@
 
         let answeredQuestions = [];
 
-        // Load data on startup
         window.onload = function() {
             loadConfig();
             loadProgress();
@@ -162,13 +159,11 @@
             updateProgressUI();
         };
 
-        // Load Config from LocalStorage
         function loadConfig() {
-            const savedConfig = localStorage.getItem('quiz_config_gform');
+            const savedConfig = localStorage.getItem('quiz_config_gform_v2');
             if (savedConfig) {
                 config = JSON.parse(savedConfig);
             } else {
-                // Set initial default URLs to the provided Google Form
                 for (let i = 1; i <= config.totalQuestions; i++) {
                     config.urls[i] = DEFAULT_FORM_URL;
                 }
@@ -178,22 +173,20 @@
         }
 
         function saveConfig() {
-            localStorage.setItem('quiz_config_gform', JSON.stringify(config));
+            localStorage.setItem('quiz_config_gform_v2', JSON.stringify(config));
         }
 
-        // Load Student Progress
         function loadProgress() {
-            const savedProgress = localStorage.getItem('quiz_progress_gform');
+            const savedProgress = localStorage.getItem('quiz_progress_gform_v2');
             if (savedProgress) {
                 answeredQuestions = JSON.parse(savedProgress);
             }
         }
 
         function saveProgress() {
-            localStorage.setItem('quiz_progress_gform', JSON.stringify(answeredQuestions));
+            localStorage.setItem('quiz_progress_gform_v2', JSON.stringify(answeredQuestions));
         }
 
-        // Render Question Grid
         function renderQuestions() {
             const container = document.getElementById('questionsGrid');
             container.innerHTML = '';
@@ -224,11 +217,11 @@
                         <p class="text-xs text-slate-400 mt-1">Klik tombol di bawah untuk membuka Google Form.</p>
                     </div>
 
-                    <button onclick="openQuestion(${i})" ${isAnswered ? 'disabled' : ''} 
+                    <button type="button" onclick="openQuestion(${i})" ${isAnswered ? 'disabled' : ''} 
                         class="w-full py-2.5 px-4 rounded-lg font-medium text-xs flex items-center justify-center gap-2 transition ${
                             isAnswered 
                                 ? 'bg-slate-700 text-slate-500 cursor-not-allowed' 
-                                ? 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-md'
+                                : 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-md cursor-pointer'
                         }">
                         <i class="fa-solid ${isAnswered ? 'fa-check' : 'fa-arrow-up-right-from-square'}"></i>
                         <span>${isAnswered ? 'Soal Sudah Dikunci' : 'Buka Google Form'}</span>
@@ -242,27 +235,20 @@
             document.getElementById('totalQuestionsText').innerText = config.totalQuestions;
         }
 
-        // Open Question & Lock automatically
         function openQuestion(num) {
             if (answeredQuestions.includes(num)) return;
 
-            // Get target URL for this question or fallback to default
             const url = config.urls[num] || DEFAULT_FORM_URL;
-
-            // Open Google Form in a new tab
             window.open(url, '_blank');
 
-            // Lock this question
             answeredQuestions.push(num);
             saveProgress();
             
-            // UI Updates
             renderQuestions();
             updateProgressUI();
             showToast(`Soal #${num} dibuka & otomatis terkunci!`);
         }
 
-        // Update Progress Bar
         function updateProgressUI() {
             const total = config.totalQuestions;
             const answered = answeredQuestions.filter(q => q <= total).length;
@@ -273,7 +259,6 @@
             document.getElementById('progressBar').style.width = `${percent}%`;
         }
 
-        // Reset Progress
         function resetProgress() {
             if (confirm("Apakah Anda yakin ingin mereset semua progres pengerjaan? Soal akan dapat diakses kembali.")) {
                 answeredQuestions = [];
@@ -284,12 +269,10 @@
             }
         }
 
-        // Generate QR Code dynamically
         function generateQRCode() {
             const qrContainer = document.getElementById('qrcode');
             qrContainer.innerHTML = '';
             
-            // Uses current browser URL (GitHub Pages URL)
             const currentUrl = window.location.href;
 
             new QRCode(qrContainer, {
@@ -302,7 +285,6 @@
             });
         }
 
-        // Download QR Code
         function downloadQR() {
             const img = document.querySelector('#qrcode img');
             if (img && img.src) {
@@ -315,13 +297,11 @@
             }
         }
 
-        // Toggle Admin Panel
         function toggleAdminPanel() {
             const panel = document.getElementById('adminPanel');
             panel.classList.toggle('hidden');
         }
 
-        // Admin: Render Custom Link Inputs
         function renderAdminLinks() {
             const container = document.getElementById('customLinksContainer');
             container.innerHTML = '';
@@ -340,14 +320,12 @@
             }
         }
 
-        // Admin: Update URL per question
         function updateQuestionUrl(num, value) {
             config.urls[num] = value.trim() || DEFAULT_FORM_URL;
             saveConfig();
             showToast(`Tautan Soal #${num} diperbarui`);
         }
 
-        // Admin: Apply default URL to all
         function applyDefaultUrlToAll() {
             const defaultUrl = document.getElementById('defaultFormUrl').value.trim() || DEFAULT_FORM_URL;
             for (let i = 1; i <= config.totalQuestions; i++) {
@@ -358,7 +336,6 @@
             showToast("Tautan diterapkan ke semua nomor soal!");
         }
 
-        // Admin: Add Question
         function addQuestion() {
             config.totalQuestions++;
             config.urls[config.totalQuestions] = document.getElementById('defaultFormUrl').value.trim() || DEFAULT_FORM_URL;
@@ -368,7 +345,6 @@
             updateProgressUI();
         }
 
-        // Admin: Remove Question
         function removeQuestion() {
             if (config.totalQuestions > 1) {
                 delete config.urls[config.totalQuestions];
@@ -380,7 +356,6 @@
             }
         }
 
-        // Toast Notification Function
         function showToast(msg) {
             const toast = document.getElementById('toast');
             const toastMsg = document.getElementById('toastMsg');
